@@ -543,138 +543,400 @@
       min-height: 2.8em;
     }
 
-    /* ===== 6. PRICING ASSISTITO ===== */
-    .pricing-layout {
-      display: grid;
-      gap: 24px;
-      grid-template-columns: 1fr 1fr;
-      align-items: start;
+    /* ===== 6. PRICING ===== */
+    .pricing-pro {
+      --p-navy: var(--navy);
+      --p-blue: var(--blue);
+      --p-blue-50: var(--blue-100);
+      --p-blue-200: var(--blue-300);
+      --p-muted: var(--gray-500);
+      --p-border: var(--gray-200);
+      background: var(--white);
+      color: var(--p-navy);
+      font-family: "Plus Jakarta Sans", sans-serif;
     }
 
-    .pricing-points {
-      display: grid;
-      gap: 10px;
-      margin-top: 18px;
-      list-style: none;
-      color: #334155;
-      font-size: 0.95rem;
+    .pricing-pro .pricing-pro-head {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 34px;
     }
 
-    .pricing-points li {
+    .pricing-pro .pricing-pro-eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--p-blue);
+      background: var(--p-blue-50);
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+
+    .pricing-pro .pricing-pro-title {
+      font-size: clamp(2rem, 4.2vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      font-weight: 800;
+    }
+
+    .pricing-pro .pricing-pro-title em {
+      font-style: italic;
+      color: var(--p-blue);
+    }
+
+    .pricing-pro .pricing-pro-sub {
+      font-size: 1.02rem;
+      color: var(--p-muted);
+      line-height: 1.6;
+    }
+
+    .pricing-pro .pricing-pro-toggle {
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 28px;
+      flex-wrap: wrap;
     }
 
-    .pricing-points li::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--blue);
-      flex-shrink: 0;
+    .pricing-pro .pricing-pro-toggle-label {
+      font-size: 14px;
+      color: var(--p-muted);
     }
 
-    .pricing-widget {
+    .pricing-pro .pricing-pro-toggle-label.active {
+      color: var(--p-navy);
+      font-weight: 700;
+    }
+
+    .pricing-pro .pricing-pro-toggle-track {
+      width: 44px;
+      height: 24px;
+      border-radius: 12px;
+      background: var(--p-navy);
+      cursor: pointer;
+      position: relative;
+      border: 0;
+      padding: 0;
+    }
+
+    .pricing-pro .pricing-pro-toggle-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform 0.2s;
+    }
+
+    .pricing-pro .pricing-pro-toggle-track.annual .pricing-pro-toggle-thumb {
+      transform: translateX(20px);
+    }
+
+    .pricing-pro .pricing-pro-save {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--p-blue);
+      background: var(--p-blue-50);
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .pricing-pro .pricing-pro-plans {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 34px;
+    }
+
+    .pricing-pro .pricing-pro-card {
+      border: 1px solid var(--p-border);
       border-radius: var(--radius-xl);
-      border: 1px solid var(--gray-200);
-      overflow: hidden;
+      padding: 32px 28px 28px;
       background: var(--white);
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .pricing-pro .pricing-pro-card:hover {
+      transform: translateY(-3px);
       box-shadow: var(--shadow-md);
     }
 
-    .pricing-head {
-      background: var(--navy);
-      color: var(--white);
-      padding: 20px;
+    .pricing-pro .pricing-pro-card.featured {
+      border: 1.5px solid var(--p-blue);
+      background: #f5f9ff;
     }
 
-    .pricing-value {
-      font-size: 2rem;
+    .pricing-pro .pricing-pro-featured-badge {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--p-blue);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 16px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .pricing-pro .pricing-pro-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--p-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .pricing-pro .pricing-pro-price-wrap {
+      margin: 16px 0 4px;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .pricing-pro .pricing-pro-price {
+      font-size: 2.5rem;
+      letter-spacing: -0.04em;
       line-height: 1;
       font-weight: 800;
-      margin-bottom: 7px;
     }
 
-    .pricing-range,
-    .pricing-car {
-      color: #cdd8ea;
-      font-size: 0.92rem;
+    .pricing-pro .pricing-pro-period {
+      font-size: 14px;
+      color: var(--p-muted);
     }
 
-    .pricing-car {
-      margin-top: 4px;
+    .pricing-pro .pricing-pro-annual {
+      font-size: 12px;
+      color: var(--p-blue);
+      margin-bottom: 6px;
+      min-height: 18px;
     }
 
-    .pricing-body {
-      padding: 20px;
+    .pricing-pro .pricing-pro-tagline {
+      font-size: 13.5px;
+      color: var(--p-muted);
+      line-height: 1.5;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--p-border);
+      margin-bottom: 20px;
     }
 
-    .strategy-tabs {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
+    .pricing-pro .pricing-pro-vin {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--p-blue);
+      background: var(--p-blue-50);
+      padding: 5px 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-weight: 500;
     }
 
-    .strategy-tab {
-      border: 1px solid var(--gray-300);
-      background: var(--white);
-      color: #334155;
-      border-radius: 10px;
-      padding: 10px 8px;
-      font-size: 0.84rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background var(--transition), color var(--transition), border-color var(--transition);
+    .pricing-pro .pricing-pro-vin svg,
+    .pricing-pro .pricing-pro-overage-icon svg,
+    .pricing-pro .pricing-pro-icon svg {
+      color: var(--p-blue);
     }
 
-    .strategy-tab.active {
-      background: var(--blue);
-      color: var(--white);
-      border-color: var(--blue);
+    .pricing-pro .pricing-pro-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
     }
 
-    .pricing-visual {
-      display: grid;
-      gap: 12px;
-      border: 1px solid var(--gray-200);
+    .pricing-pro .pricing-pro-list li {
+      font-size: 13.5px;
+      color: #1e293b;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      line-height: 1.4;
+    }
+
+    .pricing-pro .pricing-pro-list li.locked {
+      color: var(--p-muted);
+    }
+
+    .pricing-pro .pricing-pro-icon {
+      flex-shrink: 0;
+      margin-top: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--p-blue-50);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pricing-pro .pricing-pro-icon svg {
+      width: 9px;
+      height: 9px;
+    }
+
+    .pricing-pro .pricing-pro-list li.locked .pricing-pro-icon {
+      background: #f0f0ec;
+    }
+
+    .pricing-pro .pricing-pro-list li.locked .pricing-pro-icon path {
+      stroke: #bbb;
+    }
+
+    .pricing-pro .pricing-pro-btn {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      font-size: 14px;
+      font-weight: 500;
       border-radius: 12px;
-      padding: 14px;
-      background: var(--gray-50);
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: 1.5px solid var(--p-navy);
+      background: transparent;
+      color: var(--p-navy);
     }
 
-    .confidence-row,
-    .stock-row,
-    .note-row {
+    .pricing-pro .pricing-pro-btn:hover {
+      background: var(--p-navy);
+      color: #fff;
+    }
+
+    .pricing-pro .pricing-pro-card.featured .pricing-pro-btn {
+      background: var(--p-blue);
+      color: #fff;
+      border-color: var(--p-blue);
+    }
+
+    .pricing-pro .pricing-pro-card.featured .pricing-pro-btn:hover {
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+
+    .pricing-pro .pricing-pro-overage {
+      background: var(--white);
+      border: 1px solid var(--p-border);
+      border-radius: var(--radius-xl);
+      padding: 24px 28px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .pricing-pro .pricing-pro-overage-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--p-blue-50);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pricing-pro .pricing-pro-overage-text {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .pricing-pro .pricing-pro-overage-text strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+
+    .pricing-pro .pricing-pro-overage-text p {
+      font-size: 13.5px;
+      color: var(--p-muted);
+      line-height: 1.5;
+    }
+
+    .pricing-pro .pricing-pro-overage-price {
+      font-size: 2rem;
+      letter-spacing: -0.03em;
+      color: var(--p-navy);
+      white-space: nowrap;
+      font-weight: 800;
+    }
+
+    .pricing-pro .pricing-pro-overage-price small {
+      font-size: 13px;
+      color: var(--p-muted);
+      font-style: normal;
+    }
+
+    .pricing-pro .pricing-pro-addon-head {
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+
+    .pricing-pro .pricing-pro-addon-title {
+      font-size: 1.8rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+      font-weight: 800;
+    }
+
+    .pricing-pro .pricing-pro-addon-sub {
+      font-size: 14px;
+      color: var(--p-muted);
+    }
+
+    .pricing-pro .pricing-pro-addons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 12px;
-      font-size: 0.89rem;
-      color: #334155;
     }
 
-    .confidence-track {
-      width: 100%;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--gray-200);
-      overflow: hidden;
-      margin-top: 8px;
+    .pricing-pro .pricing-pro-addon-card {
+      border: 1px solid var(--p-border);
+      border-radius: 14px;
+      padding: 20px 22px;
+      background: var(--white);
     }
 
-    .confidence-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--blue), #60a5fa);
-      width: 50%;
-      transition: width var(--transition);
+    .pricing-pro .pricing-pro-addon-name {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
     }
 
-    .note-row {
-      align-items: flex-start;
-      color: var(--gray-500);
-      line-height: 1.45;
+    .pricing-pro .pricing-pro-addon-price {
+      font-size: 1.7rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+      font-weight: 800;
+    }
+
+    .pricing-pro .pricing-pro-addon-price span {
+      font-size: 13px;
+      color: var(--p-muted);
+    }
+
+    .pricing-pro .pricing-pro-addon-desc {
+      font-size: 13px;
+      color: var(--p-muted);
+      line-height: 1.5;
     }
 
     /* ===== 7. MULTI-SEDE ===== */
@@ -984,7 +1246,6 @@
       .how-header,
       .steps-grid,
       .modules-grid,
-      .pricing-layout,
       .multi-layout,
       .testimonial-grid,
       .faq-layout,
@@ -1010,12 +1271,18 @@
         width: 100%;
       }
 
-      .strategy-tabs {
+      .portal-showcase {
         grid-template-columns: 1fr;
       }
 
-      .portal-showcase {
+      .pricing-pro .pricing-pro-plans,
+      .pricing-pro .pricing-pro-addons {
         grid-template-columns: 1fr;
+      }
+
+      .pricing-pro .pricing-pro-overage {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
@@ -1239,53 +1506,139 @@
   </section>
 
   <!-- ===== 6. PRICING ASSISTITO ===== -->
-  <section class="section" id="pricing">
-    <div class="container pricing-layout">
-      <div>
-        <span class="section-label">Pricing assistito</span>
-        <h2 class="section-title">Strategie prezzo leggibili, confronto immediato</h2>
-        <p class="section-subtitle">
-          Il widget mostra in modo chiaro cosa cambia tra Rotazione, Bilanciato e Margine: prezzo suggerito, range, confidence e giacenza stimata.
-        </p>
-        <ul class="pricing-points">
-          <li>Analisi su mercato locale e storico vendite interno</li>
-          <li>Scelta rapida della strategia più adatta al momento</li>
-          <li>Controllo trasparente tra velocità di vendita e marginalità</li>
-        </ul>
+  <section class="section pricing-pro" id="pricing">
+    <div class="container">
+      <div class="pricing-pro-head reveal">
+        <span class="pricing-pro-eyebrow">Pricing trasparente</span>
+        <h2 class="pricing-pro-title">Il prezzo giusto per <em>ogni</em> concessionaria</h2>
+        <p class="pricing-pro-sub">Nessun costo nascosto, nessuna sorpresa. Scegli il piano adatto alla tua operatività e inizia subito.</p>
+
+        <div class="pricing-pro-toggle">
+          <span class="pricing-pro-toggle-label active" id="pp-lbl-monthly">Mensile</span>
+          <button class="pricing-pro-toggle-track" id="ppBillingToggle" type="button" aria-label="Cambia fatturazione">
+            <span class="pricing-pro-toggle-thumb"></span>
+          </button>
+          <span class="pricing-pro-toggle-label" id="pp-lbl-annual">Annuale</span>
+          <span class="pricing-pro-save">−15%</span>
+        </div>
       </div>
 
-      <article class="pricing-widget reveal" aria-live="polite">
-        <header class="pricing-head">
-          <div class="pricing-value" id="pricingValue">€18.900</div>
-          <div class="pricing-range" id="pricingRange">Range consigliato: €18.200 - €19.500</div>
-          <div class="pricing-car">Esempio: Fiat 500X 1.6 MJT 2021 · 56.000 km</div>
-        </header>
+      <div class="pricing-pro-plans">
+        <article class="pricing-pro-card reveal">
+          <div class="pricing-pro-name">Starter</div>
+          <div class="pricing-pro-price-wrap">
+            <div class="pricing-pro-price" id="pp-price-starter">€149</div>
+            <div class="pricing-pro-period">/mese</div>
+          </div>
+          <div class="pricing-pro-annual" id="pp-annual-starter"></div>
+          <p class="pricing-pro-tagline">Per autosaloni piccoli con 1 sede e fino a 50 veicoli in stock.</p>
 
-        <div class="pricing-body">
-          <div class="strategy-tabs" role="tablist" aria-label="Strategie pricing">
-            <button class="strategy-tab active" data-strategy="rotation" role="tab" aria-selected="true">Rotazione</button>
-            <button class="strategy-tab" data-strategy="balanced" role="tab" aria-selected="false">Bilanciato</button>
-            <button class="strategy-tab" data-strategy="margin" role="tab" aria-selected="false">Margine</button>
+          <div class="pricing-pro-vin">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"></circle><path d="M4 6l1.5 1.5L8 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            30 decodifiche VIN incluse/mese
           </div>
 
-          <div class="pricing-visual">
-            <div>
-              <div class="confidence-row">
-                <strong>Confidence modello</strong>
-                <span id="confidenceText">82%</span>
-              </div>
-              <div class="confidence-track">
-                <div class="confidence-fill" id="confidenceFill"></div>
-              </div>
-            </div>
-            <div class="stock-row">
-              <strong>Giacenza stimata</strong>
-              <span id="stockMonths">1.8 mesi</span>
-            </div>
-            <p class="note-row" id="pricingNote">Focus su velocità di uscita stock e minor tempo medio in piazzale.</p>
+          <ul class="pricing-pro-list">
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Inventario veicoli (max 50)</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>VIN decoding automatico</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Pricing assistito con range consigliato</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Export CSV / XML / JSON</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>1 utente incluso</li>
+            <li class="locked"><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#bbb" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Pubblicazione portali — non incluso</li>
+            <li class="locked"><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#bbb" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>AI contenuti annunci — non incluso</li>
+          </ul>
+          <a href="#contatto" class="pricing-pro-btn">Inizia con Starter</a>
+        </article>
+
+        <article class="pricing-pro-card featured reveal">
+          <div class="pricing-pro-featured-badge">Più scelto</div>
+          <div class="pricing-pro-name">Grow</div>
+          <div class="pricing-pro-price-wrap">
+            <div class="pricing-pro-price" id="pp-price-grow">€299</div>
+            <div class="pricing-pro-period">/mese</div>
           </div>
+          <div class="pricing-pro-annual" id="pp-annual-grow"></div>
+          <p class="pricing-pro-tagline">Per concessionarie attive con 1-2 sedi e fino a 150 veicoli in stock.</p>
+
+          <div class="pricing-pro-vin">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"></circle><path d="M4 6l1.5 1.5L8 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            80 decodifiche VIN incluse/mese
+          </div>
+
+          <ul class="pricing-pro-list">
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Inventario illimitato</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>VIN decoding avanzato + storico</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Pricing assistito con confidence score</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>AI generazione contenuti annunci</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Pubblicazione AutoScout24, Subito, Q4</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Fino a 3 utenti</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Audit log completo</li>
+          </ul>
+          <a href="#contatto" class="pricing-pro-btn">Inizia con Grow</a>
+        </article>
+
+        <article class="pricing-pro-card reveal">
+          <div class="pricing-pro-name">Scale</div>
+          <div class="pricing-pro-price-wrap">
+            <div class="pricing-pro-price" id="pp-price-scale">€599</div>
+            <div class="pricing-pro-period">/mese</div>
+          </div>
+          <div class="pricing-pro-annual" id="pp-annual-scale"></div>
+          <p class="pricing-pro-tagline">Per gruppi multi-sede con stock illimitato e team strutturato.</p>
+
+          <div class="pricing-pro-vin">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"></circle><path d="M4 6l1.5 1.5L8 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            150 decodifiche VIN incluse/mese
+          </div>
+
+          <ul class="pricing-pro-list">
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Tutto di Grow</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Multi-sede nativa</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Ruoli e permessi avanzati</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Utenti illimitati</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Accesso API completo</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Integrazioni CRM e ERP</li>
+            <li><span class="pricing-pro-icon"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>SLA dedicato + supporto prioritario</li>
+          </ul>
+          <a href="#contatto" class="pricing-pro-btn">Inizia con Scale</a>
+        </article>
+      </div>
+
+      <div class="pricing-pro-overage reveal">
+        <div class="pricing-pro-overage-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <rect x="3" y="3" width="16" height="16" rx="4" stroke="currentColor" stroke-width="1.4"></rect>
+            <path d="M7 11h8M11 7v8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+          </svg>
         </div>
-      </article>
+        <div class="pricing-pro-overage-text">
+          <strong>Decodifiche VIN extra</strong>
+          <p>Hai bisogno di più decodifiche del tuo piano? Ogni VIN aggiuntivo oltre la soglia mensile viene fatturato a fine mese. Nessun blocco, nessuna interruzione operativa.</p>
+        </div>
+        <div class="pricing-pro-overage-price">€2,50 <small>/ VIN extra</small></div>
+      </div>
+
+      <div class="pricing-pro-addon-head reveal">
+        <h3 class="pricing-pro-addon-title">Add-on disponibili</h3>
+        <p class="pricing-pro-addon-sub">Aggiungi solo ciò che ti serve, quando ne hai bisogno.</p>
+      </div>
+      <div class="pricing-pro-addons">
+        <article class="pricing-pro-addon-card reveal">
+          <div class="pricing-pro-addon-name">Utente aggiuntivo</div>
+          <div class="pricing-pro-addon-price">€29 <span>/ mese</span></div>
+          <p class="pricing-pro-addon-desc">Per ogni utente extra oltre la soglia inclusa nel piano. Nessun limite massimo.</p>
+        </article>
+        <article class="pricing-pro-addon-card reveal">
+          <div class="pricing-pro-addon-name">Onboarding assistito</div>
+          <div class="pricing-pro-addon-price">€399 <span>una tantum</span></div>
+          <p class="pricing-pro-addon-desc">Setup guidato, migrazione dati esistenti e sessione di training per il team.</p>
+        </article>
+        <article class="pricing-pro-addon-card reveal">
+          <div class="pricing-pro-addon-name">API accesso custom</div>
+          <div class="pricing-pro-addon-price">€99 <span>/ mese</span></div>
+          <p class="pricing-pro-addon-desc">Per piani Starter e Grow che necessitano di integrazioni con sistemi esistenti.</p>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -1534,60 +1887,45 @@
       });
     });
 
-    // ===== Pricing widget tabs =====
-    const pricingData = {
-      rotation: {
-        value: "€18.900",
-        range: "Range consigliato: €18.200 - €19.500",
-        confidence: 82,
-        stock: "1.8 mesi",
-        note: "Focus su velocità di uscita stock e minor tempo medio in piazzale."
-      },
-      balanced: {
-        value: "€19.700",
-        range: "Range consigliato: €19.100 - €20.300",
-        confidence: 88,
-        stock: "2.6 mesi",
-        note: "Equilibrio tra margine e rotazione per mantenere volume vendite stabile."
-      },
-      margin: {
-        value: "€20.600",
-        range: "Range consigliato: €20.100 - €21.200",
-        confidence: 76,
-        stock: "3.9 mesi",
-        note: "Strategia orientata alla marginalità con tempi di giacenza più lunghi."
-      }
+    // ===== Pricing monthly/annual toggle =====
+    const ppState = {
+      isAnnual: false,
+      prices: { starter: 149, grow: 299, scale: 599 }
     };
 
-    const tabs = Array.from(document.querySelectorAll(".strategy-tab"));
-    const pricingValue = document.getElementById("pricingValue");
-    const pricingRange = document.getElementById("pricingRange");
-    const confidenceText = document.getElementById("confidenceText");
-    const confidenceFill = document.getElementById("confidenceFill");
-    const stockMonths = document.getElementById("stockMonths");
-    const pricingNote = document.getElementById("pricingNote");
+    const ppToggle = document.getElementById("ppBillingToggle");
+    const ppLblMonthly = document.getElementById("pp-lbl-monthly");
+    const ppLblAnnual = document.getElementById("pp-lbl-annual");
 
-    const applyPricing = (key) => {
-      const data = pricingData[key];
-      pricingValue.textContent = data.value;
-      pricingRange.textContent = data.range;
-      confidenceText.textContent = `${data.confidence}%`;
-      confidenceFill.style.width = `${data.confidence}%`;
-      stockMonths.textContent = data.stock;
-      pricingNote.textContent = data.note;
+    const ppUpdatePrices = () => {
+      ["starter", "grow", "scale"].forEach((plan) => {
+        const monthly = ppState.prices[plan];
+        const shown = ppState.isAnnual ? Math.round(monthly * 0.85) : monthly;
+        const priceEl = document.getElementById(`pp-price-${plan}`);
+        const annualEl = document.getElementById(`pp-annual-${plan}`);
 
-      tabs.forEach((tab) => {
-        const active = tab.dataset.strategy === key;
-        tab.classList.toggle("active", active);
-        tab.setAttribute("aria-selected", active ? "true" : "false");
+        if (!priceEl || !annualEl) return;
+        priceEl.textContent = `€${shown}`;
+
+        if (ppState.isAnnual) {
+          const yearly = shown * 12;
+          annualEl.textContent = `€${yearly.toLocaleString("it-IT")} fatturati annualmente`;
+        } else {
+          annualEl.textContent = "";
+        }
       });
     };
 
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => applyPricing(tab.dataset.strategy));
-    });
-
-    applyPricing("rotation");
+    if (ppToggle) {
+      ppToggle.addEventListener("click", () => {
+        ppState.isAnnual = !ppState.isAnnual;
+        ppToggle.classList.toggle("annual", ppState.isAnnual);
+        ppLblMonthly.classList.toggle("active", !ppState.isAnnual);
+        ppLblAnnual.classList.toggle("active", ppState.isAnnual);
+        ppUpdatePrices();
+      });
+      ppUpdatePrices();
+    }
   </script>
 </body>
 </html>
