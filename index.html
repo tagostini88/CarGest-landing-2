@@ -1,1586 +1,1593 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CarGest - Gestionale per Concessionarie Auto</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        /* ========== CSS VARIABLES (DESIGN SYSTEM) ========== */
-        :root {
-            --color-white: #FFFFFF;
-            --color-navy: #0A1628;
-            --color-blue-electric: #2563EB;
-            --color-gray-50: #F8FAFC;
-            --color-gray-100: #F1F5F9;
-            --color-gray-300: #CBD5E1;
-            --color-gray-500: #64748B;
-            --color-gray-600: #475569;
-            --color-text-primary: #0F172A;
-            --color-text-secondary: #475569;
-            --color-blue-light: #DBEAFE;
-            --color-blue-50: #EFF6FF;
-            
-            --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            --font-weight-light: 300;
-            --font-weight-regular: 400;
-            --font-weight-medium: 500;
-            --font-weight-semi-bold: 600;
-            --font-weight-bold: 700;
-            --font-weight-extra-bold: 800;
-            
-            --spacing-xs: 0.5rem;
-            --spacing-sm: 1rem;
-            --spacing-md: 1.5rem;
-            --spacing-lg: 2rem;
-            --spacing-xl: 3rem;
-            --spacing-2xl: 4rem;
-            --spacing-3xl: 5rem;
-            
-            --border-radius: 0.375rem;
-            --border-radius-lg: 0.75rem;
-            --transition-fast: 0.2s ease;
-            --transition-normal: 0.3s ease;
-        }
-
-        /* ========== RESET & BASE ========== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: var(--font-family);
-            font-size: 1rem;
-            font-weight: var(--font-weight-regular);
-            line-height: 1.6;
-            color: var(--color-text-primary);
-            background-color: var(--color-white);
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-weight: var(--font-weight-bold);
-            line-height: 1.3;
-            margin-bottom: var(--spacing-md);
-        }
-
-        h1 { font-size: 3.5rem; }
-        h2 { font-size: 2.5rem; }
-        h3 { font-size: 1.5rem; }
-        h4 { font-size: 1.25rem; }
-
-        p {
-            margin-bottom: var(--spacing-md);
-            color: var(--color-text-secondary);
-        }
-
-        a {
-            color: var(--color-blue-electric);
-            text-decoration: none;
-            transition: color var(--transition-fast);
-        }
-
-        a:hover {
-            color: var(--color-navy);
-        }
-
-        button {
-            font-family: var(--font-family);
-            cursor: pointer;
-            border: none;
-            border-radius: var(--border-radius);
-            transition: all var(--transition-fast);
-            font-weight: var(--font-weight-semi-bold);
-        }
-
-        /* ========== NAVBAR ========== */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background-color: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            padding: var(--spacing-md) var(--spacing-lg);
-            border-bottom: 1px solid rgba(10, 22, 40, 0.05);
-            transition: background-color var(--transition-normal), border-color var(--transition-normal);
-        }
-
-        nav.scrolled {
-            background-color: rgba(255, 255, 255, 0.95);
-            border-bottom-color: rgba(10, 22, 40, 0.1);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: var(--font-weight-bold);
-            letter-spacing: -0.02em;
-        }
-
-        .nav-logo-car {
-            color: var(--color-navy);
-        }
-
-        .nav-logo-gest {
-            color: var(--color-blue-electric);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: var(--spacing-lg);
-            align-items: center;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--color-text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .nav-links a:hover {
-            color: var(--color-blue-electric);
-        }
-
-        .nav-cta {
-            padding: var(--spacing-sm) var(--spacing-lg);
-            background-color: var(--color-blue-electric);
-            color: var(--color-white);
-            font-size: 0.95rem;
-            border-radius: var(--border-radius-lg);
-        }
-
-        .nav-cta:hover {
-            background-color: var(--color-navy);
-            color: var(--color-white);
-        }
-
-        /* ========== HERO SECTION ========== */
-        .hero {
-            margin-top: 5rem;
-            padding: var(--spacing-3xl) var(--spacing-lg);
-            background: linear-gradient(135deg, var(--color-navy) 0%, #0F2847 100%);
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
-                linear-gradient(135deg, var(--color-navy) 0%, #0F2847 100%);
-            color: var(--color-white);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                repeating-linear-gradient(0deg, transparent, transparent 35px, rgba(255, 255, 255, 0.02) 35px, rgba(255, 255, 255, 0.02) 70px),
-                repeating-linear-gradient(90deg, transparent, transparent 35px, rgba(255, 255, 255, 0.02) 35px, rgba(255, 255, 255, 0.02) 70px);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .hero-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-3xl);
-            align-items: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-content h1 {
-            font-size: 4rem;
-            line-height: 1.2;
-            margin-bottom: var(--spacing-lg);
-            font-weight: var(--font-weight-extra-bold);
-        }
-
-        .hero-content .blue-highlight {
-            color: var(--color-blue-light);
-        }
-
-        .hero-badge {
-            display: inline-block;
-            padding: var(--spacing-xs) var(--spacing-md);
-            background-color: rgba(37, 99, 235, 0.15);
-            border: 1px solid rgba(37, 99, 235, 0.3);
-            border-radius: 2rem;
-            color: var(--color-blue-light);
-            font-size: 0.85rem;
-            font-weight: var(--font-weight-semi-bold);
-            margin-bottom: var(--spacing-lg);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-            margin-bottom: var(--spacing-xl);
-            opacity: 0.95;
-            line-height: 1.7;
-        }
-
-        .hero-ctas {
-            display: flex;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-2xl);
-        }
-
-        .btn-primary {
-            padding: var(--spacing-sm) var(--spacing-xl);
-            background-color: var(--color-blue-electric);
-            color: var(--color-white);
-            border-radius: var(--border-radius-lg);
-            font-weight: var(--font-weight-semi-bold);
-            font-size: 1rem;
-        }
-
-        .btn-primary:hover {
-            background-color: #1D4ED8;
-            transform: translateY(-2px);
-            box-shadow: 0 20px 25px rgba(37, 99, 235, 0.3);
-        }
-
-        .btn-ghost {
-            padding: var(--spacing-sm) var(--spacing-xl);
-            background-color: transparent;
-            color: var(--color-white);
-            border: 2px solid var(--color-white);
-            border-radius: var(--border-radius-lg);
-            font-weight: var(--font-weight-semi-bold);
-            font-size: 1rem;
-        }
-
-        .btn-ghost:hover {
-            background-color: var(--color-white);
-            color: var(--color-blue-electric);
-        }
-
-        .hero-stats {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-xl);
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--border-radius-lg);
-            padding: var(--spacing-lg);
-            backdrop-filter: blur(10px);
-        }
-
-        .stat-icon {
-            width: 2.5rem;
-            height: 2.5rem;
-            margin-bottom: var(--spacing-md);
-            opacity: 0.9;
-        }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: var(--font-weight-extra-bold);
-            color: var(--color-blue-light);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .stat-label {
-            font-size: 0.95rem;
-            opacity: 0.85;
-            line-height: 1.5;
-        }
-
-        /* ========== PORTAL STRIP ========== */
-        .portal-strip {
-            padding: var(--spacing-2xl) var(--spacing-lg);
-            background-color: var(--color-gray-50);
-            border-top: 1px solid var(--color-gray-300);
-            border-bottom: 1px solid var(--color-gray-300);
-        }
-
-        .portal-strip-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--spacing-2xl);
-            flex-wrap: wrap;
-        }
-
-        .portal-label {
-            font-size: 0.95rem;
-            color: var(--color-text-secondary);
-            font-weight: var(--font-weight-semi-bold);
-            white-space: nowrap;
-        }
-
-        .portal-logos {
-            display: flex;
-            gap: var(--spacing-2xl);
-            align-items: center;
-        }
-
-        .portal-logo {
-            width: 11rem;
-            height: 3.25rem;
-            object-fit: contain;
-            object-position: center;
-            background: transparent;
-            opacity: 0.9;
-            transition: opacity var(--transition-fast), filter var(--transition-fast);
-            filter: drop-shadow(0 0 0 transparent);
-        }
-
-        .portal-logo:hover {
-            opacity: 1;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-        }
-
-        /* ========== SECTION COMMON ========== */
-        section {
-            padding: var(--spacing-3xl) var(--spacing-lg);
-        }
-
-        .section-label {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: var(--font-weight-extra-bold);
-            letter-spacing: 0.15em;
-            color: var(--color-blue-electric);
-            text-transform: uppercase;
-            margin-bottom: var(--spacing-md);
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: var(--font-weight-extra-bold);
-            margin-bottom: var(--spacing-md);
-            color: var(--color-navy);
-        }
-
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--color-text-secondary);
-            margin-bottom: var(--spacing-2xl);
-            max-width: 600px;
-        }
-
-        .section-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* ========== HOW IT WORKS ========== */
-        .how-it-works {
-            background-color: var(--color-white);
-        }
-
-        .how-it-works-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-2xl);
-        }
-
-        .step-card {
-            padding: var(--spacing-2xl);
-            background-color: var(--color-white);
-            border: 2px solid var(--color-gray-300);
-            border-radius: var(--border-radius-lg);
-            transition: all var(--transition-fast);
-            position: relative;
-        }
-
-        .step-card:hover {
-            border-color: var(--color-blue-electric);
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
-            transform: translateY(-4px);
-        }
-
-        .step-number {
-            font-size: 3rem;
-            font-weight: var(--font-weight-extra-bold);
-            color: var(--color-blue-electric);
-            opacity: 0.2;
-            position: absolute;
-            top: var(--spacing-lg);
-            right: var(--spacing-lg);
-        }
-
-        .step-icon {
-            width: 3rem;
-            height: 3rem;
-            margin-bottom: var(--spacing-lg);
-            color: var(--color-blue-electric);
-        }
-
-        .step-card h3 {
-            margin-bottom: var(--spacing-md);
-        }
-
-        .step-card p {
-            margin-bottom: var(--spacing-lg);
-            font-size: 0.95rem;
-        }
-
-        .step-bullets {
-            list-style: none;
-        }
-
-        .step-bullets li {
-            display: flex;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-sm);
-            font-size: 0.95rem;
-            color: var(--color-text-secondary);
-        }
-
-        .step-bullets li::before {
-            content: '•';
-            color: var(--color-blue-electric);
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        /* ========== MODULES ========== */
-        .modules {
-            background-color: var(--color-gray-50);
-        }
-
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-2xl);
-        }
-
-        .feature-card {
-            padding: var(--spacing-2xl);
-            background-color: var(--color-white);
-            border-radius: var(--border-radius-lg);
-            transition: all var(--transition-fast);
-            border: 1px solid var(--color-gray-300);
-        }
-
-        .feature-card:hover {
-            background-color: var(--color-blue-50);
-            border-color: var(--color-blue-electric);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1);
-        }
-
-        .feature-icon-box {
-            width: 3.5rem;
-            height: 3.5rem;
-            background-color: var(--color-blue-light);
-            border-radius: var(--border-radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .feature-icon-box svg {
-            width: 1.75rem;
-            height: 1.75rem;
-            color: var(--color-blue-electric);
-        }
-
-        .feature-card h3 {
-            margin-bottom: var(--spacing-md);
-        }
-
-        .feature-card p {
-            font-size: 0.95rem;
-            margin-bottom: 0;
-        }
-
-        /* ========== PRICING ========== */
-        .pricing {
-            background-color: var(--color-white);
-        }
-
-        .pricing-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-3xl);
-            align-items: start;
-        }
-
-        .pricing-text h2 {
-            margin-bottom: var(--spacing-md);
-        }
-
-        .pricing-text p {
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .pricing-widget {
-            background-color: var(--color-white);
-            border: 2px solid var(--color-gray-300);
-            border-radius: var(--border-radius-lg);
-            overflow: hidden;
-        }
-
-        .pricing-widget-header {
-            background-color: var(--color-navy);
-            color: var(--color-white);
-            padding: var(--spacing-2xl);
-        }
-
-        .pricing-price {
-            font-size: 3rem;
-            font-weight: var(--font-weight-extra-bold);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .pricing-range {
-            font-size: 0.95rem;
-            opacity: 0.85;
-        }
-
-        .pricing-widget-body {
-            padding: var(--spacing-2xl);
-        }
-
-        .pricing-tabs {
-            display: flex;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-xl);
-            border-bottom: 2px solid var(--color-gray-300);
-        }
-
-        .pricing-tab {
-            padding: var(--spacing-md) var(--spacing-lg);
-            background: none;
-            color: var(--color-text-secondary);
-            border: none;
-            border-bottom: 3px solid transparent;
-            cursor: pointer;
-            font-weight: var(--font-weight-semi-bold);
-            transition: all var(--transition-fast);
-        }
-
-        .pricing-tab.active {
-            color: var(--color-blue-electric);
-            border-bottom-color: var(--color-blue-electric);
-        }
-
-        .pricing-content {
-            display: none;
-        }
-
-        .pricing-content.active {
-            display: block;
-        }
-
-        .confidence-bar {
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .confidence-label {
-            font-size: 0.85rem;
-            font-weight: var(--font-weight-semi-bold);
-            margin-bottom: var(--spacing-sm);
-            color: var(--color-text-secondary);
-        }
-
-        .confidence-track {
-            width: 100%;
-            height: 6px;
-            background-color: var(--color-gray-300);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .confidence-fill {
-            height: 100%;
-            background-color: var(--color-blue-electric);
-            transition: width var(--transition-normal);
-        }
-
-        .pricing-note {
-            font-size: 0.85rem;
-            color: var(--color-text-secondary);
-            line-height: 1.6;
-        }
-
-        /* ========== MULTI-LOCATION ========== */
-        .multi-location {
-            background-color: var(--color-gray-50);
-        }
-
-        .multi-location-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-3xl);
-            align-items: start;
-        }
-
-        .multi-location-content {
-            order: 2;
-        }
-
-        .multi-location-cards {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-xl);
-        }
-
-        .multi-location-card {
-            background-color: var(--color-white);
-            padding: var(--spacing-2xl);
-            border-radius: var(--border-radius-lg);
-            border: 1px solid var(--color-gray-300);
-        }
-
-        .multi-location-card .feature-icon-box {
-            width: 2.5rem;
-            height: 2.5rem;
-            margin-bottom: var(--spacing-md);
-        }
-
-        .multi-location-card h4 {
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .multi-location-card p {
-            font-size: 0.95rem;
-            margin-bottom: 0;
-        }
-
-        /* ========== TESTIMONIALS ========== */
-        .testimonials {
-            background: linear-gradient(135deg, var(--color-navy) 0%, #0F2847 100%);
-            color: var(--color-white);
-            text-align: center;
-        }
-
-        .testimonials .section-label {
-            color: var(--color-blue-light);
-        }
-
-        .testimonials .section-title {
-            color: var(--color-white);
-        }
-
-        .testimonials .section-subtitle {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-2xl);
-            margin-top: var(--spacing-2xl);
-        }
-
-        .testimonial-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: var(--border-radius-lg);
-            padding: var(--spacing-2xl);
-            transition: all var(--transition-fast);
-            backdrop-filter: blur(10px);
-        }
-
-        .testimonial-card:hover {
-            border-color: var(--color-blue-light);
-            transform: translateY(-8px);
-        }
-
-        .testimonial-stars {
-            color: #FCD34D;
-            font-size: 1.25rem;
-            margin-bottom: var(--spacing-md);
-        }
-
-        .testimonial-quote {
-            font-size: 1rem;
-            font-style: italic;
-            margin-bottom: var(--spacing-lg);
-            line-height: 1.8;
-            opacity: 0.95;
-        }
-
-        .testimonial-author {
-            font-weight: var(--font-weight-semi-bold);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .testimonial-role {
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-
-        /* ========== FAQ ========== */
-        .faq {
-            background-color: var(--color-white);
-        }
-
-        .faq-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-3xl);
-        }
-
-        .faq-intro {
-            position: sticky;
-            top: 6rem;
-        }
-
-        .faq-intro h2 {
-            margin-bottom: var(--spacing-md);
-        }
-
-        .faq-intro p {
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .faq-cta {
-            padding: var(--spacing-sm) var(--spacing-xl);
-            background-color: var(--color-blue-electric);
-            color: var(--color-white);
-            border-radius: var(--border-radius-lg);
-            font-weight: var(--font-weight-semi-bold);
-        }
-
-        .faq-cta:hover {
-            background-color: var(--color-navy);
-        }
-
-        .faq-items {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-        }
-
-        .faq-item {
-            border: 2px solid var(--color-gray-300);
-            border-radius: var(--border-radius-lg);
-            overflow: hidden;
-        }
-
-        .faq-item.open {
-            border-color: var(--color-blue-electric);
-            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1);
-        }
-
-        .faq-question {
-            padding: var(--spacing-lg);
-            background-color: var(--color-white);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: var(--spacing-md);
-            transition: all var(--transition-fast);
-            font-weight: var(--font-weight-semi-bold);
-            color: var(--color-text-primary);
-        }
-
-        .faq-question:hover {
-            background-color: var(--color-gray-50);
-        }
-
-        .faq-toggle {
-            width: 1.5rem;
-            height: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            color: var(--color-blue-electric);
-            transition: transform var(--transition-fast);
-        }
-
-        .faq-item.open .faq-toggle {
-            transform: rotate(180deg);
-        }
-
-        .faq-answer {
-            padding: 0 var(--spacing-lg) var(--spacing-lg);
-            background-color: var(--color-gray-50);
-            color: var(--color-text-secondary);
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height var(--transition-normal);
-        }
-
-        .faq-item.open .faq-answer {
-            max-height: 500px;
-        }
-
-        /* ========== FINAL CTA ========== */
-        .final-cta {
-            background: linear-gradient(135deg, var(--color-blue-electric) 0%, #1D4ED8 100%);
-            background-image: 
-                repeating-linear-gradient(0deg, transparent, transparent 35px, rgba(255, 255, 255, 0.05) 35px, rgba(255, 255, 255, 0.05) 70px),
-                repeating-linear-gradient(90deg, transparent, transparent 35px, rgba(255, 255, 255, 0.05) 35px, rgba(255, 255, 255, 0.05) 70px),
-                linear-gradient(135deg, var(--color-blue-electric) 0%, #1D4ED8 100%);
-            color: var(--color-white);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .final-cta-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .final-cta h2 {
-            color: var(--color-white);
-            font-size: 3rem;
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .final-cta p {
-            font-size: 1.1rem;
-            margin-bottom: var(--spacing-xl);
-            opacity: 0.95;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .btn-white {
-            padding: var(--spacing-sm) var(--spacing-xl);
-            background-color: var(--color-white);
-            color: var(--color-blue-electric);
-            border-radius: var(--border-radius-lg);
-            font-weight: var(--font-weight-semi-bold);
-            font-size: 1rem;
-            display: inline-block;
-        }
-
-        .btn-white:hover {
-            background-color: var(--color-gray-50);
-            transform: translateY(-2px);
-            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        /* ========== FOOTER ========== */
-        footer {
-            background-color: var(--color-navy);
-            color: var(--color-white);
-            padding: var(--spacing-2xl) var(--spacing-lg);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-logo {
-            font-size: 1.25rem;
-            font-weight: var(--font-weight-bold);
-        }
-
-        .footer-logo-car {
-            color: var(--color-white);
-        }
-
-        .footer-logo-gest {
-            color: var(--color-blue-light);
-        }
-
-        .footer-copyright {
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        /* ========== ANIMATIONS ========== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity var(--transition-normal), transform var(--transition-normal);
-        }
-
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 960px) {
-            h1 { font-size: 2.5rem; }
-            h2 { font-size: 1.75rem; }
-            h3 { font-size: 1.25rem; }
-
-            .hero-container {
-                grid-template-columns: 1fr;
-                gap: var(--spacing-2xl);
-            }
-
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-stats {
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-
-            .stat-card {
-                flex: 1;
-                min-width: 200px;
-            }
-
-            .how-it-works-grid,
-            .modules-grid,
-            .testimonials-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .pricing-container,
-            .multi-location-container,
-            .faq-container {
-                grid-template-columns: 1fr;
-            }
-
-            .multi-location-content {
-                order: 0;
-            }
-
-            .portal-strip-content {
-                flex-direction: column;
-                gap: var(--spacing-lg);
-            }
-
-            .nav-links {
-                gap: var(--spacing-md);
-                font-size: 0.9rem;
-            }
-
-            .hero-ctas {
-                flex-direction: column;
-            }
-
-            .btn-primary,
-            .btn-ghost {
-                width: 100%;
-                text-align: center;
-            }
-
-            footer {
-                flex-direction: column;
-                gap: var(--spacing-lg);
-                text-align: center;
-            }
-
-            .faq-intro {
-                position: static;
-            }
-
-            section {
-                padding: var(--spacing-2xl) var(--spacing-md);
-            }
-        }
-
-        @media (max-width: 640px) {
-            .nav-links {
-                display: none;
-            }
-
-            .nav-cta {
-                padding: var(--spacing-xs) var(--spacing-md);
-                font-size: 0.85rem;
-            }
-
-            h1 { font-size: 2rem; }
-            h2 { font-size: 1.5rem; }
-
-            .hero {
-                padding: var(--spacing-2xl) var(--spacing-md);
-                margin-top: 4rem;
-            }
-
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-
-            .final-cta h2 {
-                font-size: 2rem;
-            }
-
-            .modules-grid,
-            .how-it-works-grid {
-                gap: var(--spacing-lg);
-            }
-
-            .feature-icon-box {
-                width: 3rem;
-                height: 3rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CarGest | Gestionale Cloud per Concessionarie Auto</title>
+  <meta
+    name="description"
+    content="CarGest: gestionale cloud per concessionarie auto italiane. Inventario, pricing assistito AI, pubblicazione multi-portale, multi-sede e audit log in un unico flusso."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --white: #ffffff;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-500: #64748b;
+      --navy: #0a1628;
+      --navy-2: #0f223d;
+      --blue: #2563eb;
+      --blue-100: #dbeafe;
+      --blue-200: #bfdbfe;
+      --blue-300: #93c5fd;
+      --blue-soft: #7fb3ff;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+      --shadow-sm: 0 8px 24px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 12px 30px rgba(10, 22, 40, 0.1);
+      --transition: 0.2s ease;
+      --container: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      color: var(--navy);
+      background: var(--white);
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 2.5rem));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 92px 0;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: clamp(1.85rem, 2.8vw, 2.75rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+      font-weight: 800;
+      max-width: 700px;
+    }
+
+    .section-subtitle {
+      color: var(--gray-500);
+      max-width: 670px;
+      font-size: 1.03rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--blue);
+      box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.5);
+      animation: ping 1.6s infinite;
+    }
+
+    @keyframes ping {
+      0% {
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.45);
+      }
+      70% {
+        box-shadow: 0 0 0 9px rgba(37, 99, 235, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+      }
+    }
+
+    .dot-grid {
+      background-image: radial-gradient(rgba(191, 219, 254, 0.34) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      padding: 12px 18px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--white);
+      border-color: rgba(147, 197, 253, 0.5);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    /* ===== 1. NAVBAR ===== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 40;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(12px);
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    .navbar.scrolled {
+      background: rgba(255, 255, 255, 0.93);
+      border-color: rgba(148, 163, 184, 0.5);
+    }
+
+    .nav-inner {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .logo {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+
+    .logo .car {
+      color: var(--navy);
+    }
+
+    .logo .gest {
+      color: var(--blue);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: #334155;
+      font-weight: 600;
+      font-size: 0.93rem;
+    }
+
+    .nav-links a {
+      transition: color var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+
+    /* ===== 2. HERO ===== */
+    .hero {
+      background: linear-gradient(160deg, var(--navy) 0%, #102440 100%);
+      color: var(--white);
+      padding: 152px 0 104px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.26;
+      pointer-events: none;
+    }
+
+    .hero .dot-grid {
+      position: absolute;
+      inset: 0;
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .hero-layout {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 34px;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(147, 197, 253, 0.14);
+      border: 1px solid rgba(147, 197, 253, 0.42);
+      color: #dbeafe;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.75rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      max-width: 760px;
+      font-weight: 800;
+    }
+
+    .hero h1 .highlight {
+      color: var(--blue-soft);
+    }
+
+    .hero-sub {
+      color: #d5deec;
+      font-size: 1.06rem;
+      max-width: 650px;
+      margin-bottom: 28px;
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: grid;
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: rgba(15, 34, 61, 0.75);
+      border: 1px solid rgba(147, 197, 253, 0.34);
+      border-radius: 14px;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .stat-card svg {
+      width: 24px;
+      height: 24px;
+      color: var(--blue-200);
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 1.6rem;
+      line-height: 1;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.93rem;
+      color: #c8d7ea;
+    }
+
+    /* ===== 3. STRIP PORTALI ===== */
+    .portal-strip {
+      background: var(--gray-100);
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 28px 0;
+    }
+
+    .portal-strip-inner {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      justify-content: center;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    .portal-strip-label {
+      color: #334155;
+      font-weight: 600;
+    }
+
+    .portal-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      border: 1px solid var(--gray-300);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .portal-chip svg {
+      width: 16px;
+      height: 16px;
+      color: var(--blue);
+      flex-shrink: 0;
+    }
+
+    .portal-showcase {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      width: min(760px, 100%);
+    }
+
+    .portal-logo-card {
+      background: var(--white);
+      border: 1px solid var(--gray-300);
+      border-radius: 12px;
+      padding: 14px;
+      min-height: 86px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .portal-logo-card img {
+      max-width: 100%;
+      height: 40px;
+      object-fit: contain;
+      background: transparent;
+    }
+
+    /* ===== 4. COME FUNZIONA ===== */
+    .how-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .step-card {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-xl);
+      padding: 22px;
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-index {
+      display: inline-block;
+      margin-bottom: 14px;
+      font-size: 0.74rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    .step-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--blue-100);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .step-icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--blue);
+    }
+
+    .step-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .step-card p {
+      color: var(--gray-500);
+      font-size: 0.94rem;
+      margin-bottom: 13px;
+      min-height: 2.9em;
+    }
+
+    .step-list {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      font-size: 0.89rem;
+      color: #334155;
+    }
+
+    .step-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-list li::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--blue);
+      flex-shrink: 0;
+    }
+
+    /* ===== 5. MODULI ===== */
+    .modules {
+      background: var(--gray-50);
+    }
+
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .module-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      transition: border-color var(--transition), background var(--transition), transform var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .module-card:hover {
+      background: var(--blue-100);
+      border-color: var(--blue-300);
+      transform: translateY(-3px);
+    }
+
+    .module-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 11px;
+      background: var(--blue-100);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .module-icon svg {
+      width: 22px;
+      height: 22px;
+      color: var(--blue);
+    }
+
+    .module-card h3 {
+      font-size: 1.04rem;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .module-card p {
+      color: var(--gray-500);
+      font-size: 0.92rem;
+      line-height: 1.45;
+      min-height: 2.8em;
+    }
+
+    /* ===== 6. PRICING ASSISTITO ===== */
+    .pricing-layout {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+
+    .pricing-points {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+      list-style: none;
+      color: #334155;
+      font-size: 0.95rem;
+    }
+
+    .pricing-points li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pricing-points li::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--blue);
+      flex-shrink: 0;
+    }
+
+    .pricing-widget {
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: var(--shadow-md);
+    }
+
+    .pricing-head {
+      background: var(--navy);
+      color: var(--white);
+      padding: 20px;
+    }
+
+    .pricing-value {
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 800;
+      margin-bottom: 7px;
+    }
+
+    .pricing-range,
+    .pricing-car {
+      color: #cdd8ea;
+      font-size: 0.92rem;
+    }
+
+    .pricing-car {
+      margin-top: 4px;
+    }
+
+    .pricing-body {
+      padding: 20px;
+    }
+
+    .strategy-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .strategy-tab {
+      border: 1px solid var(--gray-300);
+      background: var(--white);
+      color: #334155;
+      border-radius: 10px;
+      padding: 10px 8px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+    }
+
+    .strategy-tab.active {
+      background: var(--blue);
+      color: var(--white);
+      border-color: var(--blue);
+    }
+
+    .pricing-visual {
+      display: grid;
+      gap: 12px;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 14px;
+      background: var(--gray-50);
+    }
+
+    .confidence-row,
+    .stock-row,
+    .note-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.89rem;
+      color: #334155;
+    }
+
+    .confidence-track {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--gray-200);
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .confidence-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), #60a5fa);
+      width: 50%;
+      transition: width var(--transition);
+    }
+
+    .note-row {
+      align-items: flex-start;
+      color: var(--gray-500);
+      line-height: 1.45;
+    }
+
+    /* ===== 7. MULTI-SEDE ===== */
+    .multi {
+      background: var(--gray-50);
+    }
+
+    .multi-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .multi-cards {
+      display: grid;
+      gap: 12px;
+    }
+
+    .multi-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .multi-card h3 {
+      font-size: 1.02rem;
+      margin-bottom: 6px;
+    }
+
+    .multi-card p {
+      color: var(--gray-500);
+      font-size: 0.92rem;
+      min-height: 2.8em;
+    }
+
+    /* ===== 8. TESTIMONIAL ===== */
+    .testimonial {
+      background: linear-gradient(170deg, var(--navy) 0%, #102440 100%);
+      color: var(--white);
+    }
+
+    .testimonial .section-label {
+      color: var(--blue-200);
+      justify-content: center;
+      width: 100%;
+    }
+
+    .testimonial .section-title {
+      color: var(--white);
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .testimonial-card {
+      border: 1px solid rgba(147, 197, 253, 0.35);
+      border-radius: var(--radius-xl);
+      background: rgba(15, 34, 61, 0.82);
+      padding: 20px;
+      transition: transform var(--transition), border-color var(--transition);
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--blue-300);
+    }
+
+    .stars {
+      color: var(--blue-300);
+      margin-bottom: 10px;
+      font-size: 1rem;
+      letter-spacing: 0.14em;
+    }
+
+    .quote {
+      color: #d6e1f2;
+      font-size: 0.95rem;
+      margin-bottom: 13px;
+      min-height: 8.2em;
+    }
+
+    .author {
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .role {
+      font-size: 0.84rem;
+      color: #bfd4f3;
+      margin-top: 2px;
+    }
+
+    /* ===== 9. FAQ ===== */
+    .faq-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .faq-side {
+      position: sticky;
+      top: 100px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      background: var(--gray-50);
+    }
+
+    .faq-side h3 {
+      font-size: 1.55rem;
+      margin-bottom: 10px;
+      line-height: 1.15;
+    }
+
+    .faq-side p {
+      color: var(--gray-500);
+      margin-bottom: 14px;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--white);
+    }
+
+    .faq-question {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--navy);
+      cursor: pointer;
+    }
+
+    .faq-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: var(--blue-100);
+      color: var(--blue);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 700;
+      transition: transform var(--transition);
+      flex-shrink: 0;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition);
+    }
+
+    .faq-answer p {
+      padding: 0 16px 16px;
+      color: var(--gray-500);
+      font-size: 0.93rem;
+    }
+
+    /* ===== 10. CTA FINALE ===== */
+    .final-cta {
+      background: linear-gradient(160deg, var(--blue), #1d4ed8);
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .final-cta .dot-grid {
+      position: absolute;
+      inset: 0;
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .final-cta-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 14px 0;
+    }
+
+    .final-cta h2 {
+      font-size: clamp(1.9rem, 3vw, 2.8rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    .final-cta p {
+      color: #deebff;
+      font-size: 1rem;
+      max-width: 760px;
+      margin: 0 auto 22px;
+    }
+
+    .btn-light {
+      background: var(--white);
+      color: var(--blue);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* ===== 11. FOOTER ===== */
+    .footer {
+      background: var(--navy);
+      color: #d9e4f3;
+      padding: 52px 0 20px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .footer h4 {
+      color: var(--white);
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .footer p,
+    .footer li,
+    .footer a {
+      color: #c4d2e7;
+      font-size: 0.9rem;
+    }
+
+    .footer ul {
+      list-style: none;
+      display: grid;
+      gap: 6px;
+    }
+
+    .footer a:hover {
+      color: var(--blue-200);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(147, 197, 253, 0.22);
+      padding-top: 16px;
+      font-size: 0.84rem;
+      color: #9bb0cc;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* ===== REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 960px) {
+      .section {
+        padding: 74px 0;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 126px 0 84px;
+      }
+
+      .hero-layout,
+      .how-header,
+      .steps-grid,
+      .modules-grid,
+      .pricing-layout,
+      .multi-layout,
+      .testimonial-grid,
+      .faq-layout,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .faq-side {
+        position: static;
+      }
+
+      .quote {
+        min-height: auto;
+      }
+
+      .hero-cta {
+        width: 100%;
+      }
+
+      .hero-cta .btn,
+      .faq-side .btn,
+      .final-cta .btn {
+        width: 100%;
+      }
+
+      .strategy-tabs {
+        grid-template-columns: 1fr;
+      }
+
+      .portal-showcase {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- ========== NAVBAR ========== -->
-    <nav id="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <span class="nav-logo-car">Car</span><span class="nav-logo-gest">Gest</span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#how-it-works">Come funziona</a></li>
-                <li><a href="#modules">Moduli</a></li>
-                <li><a href="#pricing">Pricing Assistito</a></li>
-                <li><a href="#contact">Contatto</a></li>
-            </ul>
-            <button class="nav-cta">Richiedi demo →</button>
-        </div>
-    </nav>
-
-    <!-- ========== HERO SECTION ========== -->
-    <section class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <div class="hero-badge">✨ Intelligenza Artificiale</div>
-                <h1>Gestisci <span class="blue-highlight">1.000+ vetture</span> in meno tempo, massimizza profitti</h1>
-                <p class="hero-subtitle">Automatizza il pricing, pubblica su tutti i portali in secondi e controlla l'intera flotta da un'unica piattaforma. Risultati dimostrabili: +28% coerenza dati, −37% tempo di pubblicazione.</p>
-                <div class="hero-ctas">
-                    <button class="btn-primary">Inizia gratuitamente</button>
-                    <button class="btn-ghost">Scopri il demo</button>
-                </div>
-            </div>
-            <div class="hero-stats">
-                <div class="stat-card reveal">
-                    <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M9 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V9M9 3L21 3M9 3V9H15M9 9H15M9 15H15M9 21V15H15"/>
-                    </svg>
-                    <div class="stat-value">92%</div>
-                    <div class="stat-label">Schede veicolo complete al primo inserimento</div>
-                </div>
-                <div class="stat-card reveal">
-                    <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M12 2L2 7L2 12C2 18.6 12 22 12 22C12 22 22 18.6 22 12V7L12 2Z M9 12L11 14L15 10"/>
-                    </svg>
-                    <div class="stat-value">−37%</div>
-                    <div class="stat-label">Tempo medio di pubblicazione annuncio</div>
-                </div>
-                <div class="stat-card reveal">
-                    <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M12 6V2M12 22V18M18 12H22M2 12H6M16.5 7.5L19.3 4.7M4.7 19.3L7.5 16.5M16.5 16.5L19.3 19.3M4.7 4.7L7.5 7.5"/>
-                    </svg>
-                    <div class="stat-value">+28%</div>
-                    <div class="stat-label">Coerenza dati tra sedi e portali</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== PORTAL STRIP ========== -->
-    <div class="portal-strip">
-        <div class="portal-strip-content">
-            <div class="portal-label">Integrazione diretta con</div>
-            <div class="portal-logos">
-                <img src="autoscout-1.png" alt="AutoScout24" class="portal-logo">
-                <img src="Unknown.png" alt="Quattroruote" class="portal-logo">
-                <img src="Unknown-1.png" alt="Subito.it" class="portal-logo">
-            </div>
-        </div>
+  <!-- ===== 1. NAVBAR ===== -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a class="logo" href="#top" aria-label="CarGest Home"><span class="car">Car</span><span class="gest">Gest</span></a>
+      <nav class="nav-links" aria-label="Menu principale">
+        <a href="#how">Come funziona</a>
+        <a href="#moduli">Moduli</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contatto">Contatto</a>
+      </nav>
+      <a class="btn btn-primary" href="#contatto">Richiedi demo gratuita</a>
     </div>
+  </header>
 
-    <!-- ========== HOW IT WORKS ========== -->
-    <section class="how-it-works" id="how-it-works">
-        <div class="section-container">
-            <div class="section-label">Processo in 3 step</div>
-            <h2 class="section-title">Dalla foto al guadagno in minuti</h2>
-            <p class="section-subtitle">Carica una foto, l'AI compila tutto automaticamente. Tu pubblicizzi su 3 portali con un click.</p>
+  <!-- ===== 2. HERO ===== -->
+  <section class="hero" id="top">
+    <div class="dot-grid" aria-hidden="true"></div>
+    <div class="container hero-layout">
+      <div class="reveal">
+        <div class="hero-badge"><span class="dot"></span>Gestionale automotive · API-first · Multi-sede</div>
+        <h1>
+          Riduci errori e tempi operativi.
+          <span class="highlight">Pubblica meglio</span> su tutti i portali,
+          da un unico flusso.
+        </h1>
+        <p class="hero-sub">
+          CarGest aiuta concessionarie da 10 a 500+ vetture a completare schede veicolo, decidere prezzi assistiti dall'AI e mantenere dati coerenti tra sedi, team e annunci.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#contatto">Richiedi demo gratuita</a>
+          <a class="btn btn-ghost" href="#how">Guarda come funziona</a>
+        </div>
+      </div>
 
-            <div class="how-it-works-grid">
-                <div class="step-card reveal">
-                    <div class="step-number">1</div>
-                    <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M12 3C6.48 3 2 6.04 2 10C2 13.96 6.48 17 12 17C13.3 17 14.6 16.84 15.87 16.54C16.4 17.04 16.76 17.75 16.76 18.57C16.76 20.53 14.66 22 12 22M12 7V13M9 10H15"/>
-                    </svg>
-                    <h3>Carica vettura</h3>
-                    <p>Inserisci foto e dati essenziali. L'IA compila modello, cilindrata, consumi e storia meccanica in pochi secondi.</p>
-                    <ul class="step-bullets">
-                        <li>Compilazione automatica al 92%</li>
-                        <li>Verifica dati in tempo reale</li>
-                        <li>Senza errori di trascrizione</li>
-                    </ul>
-                </div>
+      <div class="hero-stats">
+        <article class="stat-card reveal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 12h16M4 6h16M4 18h10" />
+          </svg>
+          <div>
+            <span class="stat-value">92%</span>
+            <span class="stat-label">Schede complete al primo inserimento con supporto VIN + AI</span>
+          </div>
+        </article>
 
-                <div class="step-card reveal">
-                    <div class="step-number">2</div>
-                    <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22S22 17.52 22 12C22 6.48 17.52 2 12 2M15.5 9.5C15.5 10.33 14.83 11 14 11C13.17 11 12.5 10.33 12.5 9.5C12.5 8.67 13.17 8 14 8C14.83 8 15.5 8.67 15.5 9.5ZM9.5 9.5C9.5 10.33 8.83 11 8 11C7.17 11 6.5 10.33 6.5 9.5C6.5 8.67 7.17 8 8 8C8.83 8 9.5 8.67 9.5 9.5ZM12 17.5C13.66 17.5 15.08 16.8 16 15.65C13.08 14.5 10.92 14.5 12 14.5C13.08 14.5 10.92 14.5 8 15.65C8.92 16.8 10.34 17.5 12 17.5Z"/>
-                    </svg>
-                    <h3>Prezzo intelligente</h3>
-                    <p>L'IA suggerisce il prezzo ottimale basato su mercato locale, flotta, margine desiderato. Tu scegli la strategia.</p>
-                    <ul class="step-bullets">
-                        <li>3 strategie di pricing predefinite</li>
-                        <li>Aggiornamento dati real-time</li>
-                        <li>Margine garantito</li>
-                    </ul>
-                </div>
+        <article class="stat-card reveal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+          <div>
+            <span class="stat-value">−37%</span>
+            <span class="stat-label">Tempo medio per preparare e pubblicare un annuncio completo</span>
+          </div>
+        </article>
 
-                <div class="step-card reveal">
-                    <div class="step-number">3</div>
-                    <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M21 13.255A23.931 23.931 0 0112 15c-3.728 0-7.196-.5-10.261-1.469A1.992 1.992 0 003 13.244v1.512c0 .141.06.278.161.374l1.746 1.413c.591.477 1.432.744 2.285.744.628 0 1.227-.136 1.77-.406l5.038 3.355a2 2 0 003 0l5.038-3.355c.543.27 1.142.406 1.77.406.853 0 1.694-.267 2.285-.744l1.746-1.413c.1-.096.161-.233.161-.374V13.255z"/>
-                    </svg>
-                    <h3>Pubblica su 3 portali</h3>
-                    <p>Pubblica su AutoScout24, Quattroruote e Subito.it da una sola schermata. −37% tempo di pubblicazione.</p>
-                    <ul class="step-bullets">
-                        <li>Integrazione API nativa</li>
-                        <li>Aggiornamento sincronizzato</li>
-                        <li>Controllo annunci real-time</li>
-                    </ul>
-                </div>
+        <article class="stat-card reveal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 16l5-5 4 4 7-7" />
+            <path d="M20 8v6h-6" />
+          </svg>
+          <div>
+            <span class="stat-value">+28%</span>
+            <span class="stat-label">Coerenza dati tra portali, sedi e storico commerciale</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3. STRIP PORTALI ===== -->
+  <section class="portal-strip" aria-label="Portali integrati">
+    <div class="container portal-strip-inner">
+      <p class="portal-strip-label">Integrazione diretta con</p>
+      <span class="portal-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14M12 5v14" /></svg>
+        AutoScout24
+      </span>
+      <span class="portal-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 12h16M4 7h16M4 17h10" /></svg>
+        Quattroruote
+      </span>
+      <span class="portal-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 12h16M12 4l8 8-8 8" /></svg>
+        Subito.it
+      </span>
+      <div class="portal-showcase reveal">
+        <div class="portal-logo-card">
+          <img src="autoscout-1.png" alt="Logo AutoScout24" />
+        </div>
+        <div class="portal-logo-card">
+          <img src="Unknown.png" alt="Logo Quattroruote" />
+        </div>
+        <div class="portal-logo-card">
+          <img src="Unknown-1.png" alt="Logo Subito.it" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4. COME FUNZIONA ===== -->
+  <section class="section" id="how">
+    <div class="container">
+      <div class="how-header">
+        <div>
+          <span class="section-label">Flusso operativo</span>
+          <h2 class="section-title">Dati più affidabili in 3 passaggi pratici</h2>
+        </div>
+        <p class="section-subtitle">
+          Dal caricamento iniziale alla pubblicazione multi-portale: ogni step è guidato per ridurre attività manuali e mantenere coerenza su tutto il parco auto.
+        </p>
+      </div>
+
+      <div class="steps-grid">
+        <article class="step-card reveal">
+          <span class="step-index">Step 01</span>
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16v10H4z" /><path d="M8 4v6M16 4v6" /></svg>
+          </div>
+          <h3>Inserisci una sola volta</h3>
+          <p>Decodifica VIN, compilazione assistita e controlli automatici sui campi chiave.</p>
+          <ul class="step-list">
+            <li>Recupero dati tecnici base</li>
+            <li>Template immagini e optional</li>
+            <li>Validazioni prima del salvataggio</li>
+          </ul>
+        </article>
+
+        <article class="step-card reveal">
+          <span class="step-index">Step 02</span>
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 16l5-5 4 4 7-7" /><path d="M20 8v6h-6" /></svg>
+          </div>
+          <h3>Definisci il prezzo</h3>
+          <p>Strategie guidate dal mercato locale, dallo storico interno e dal margine target.</p>
+          <ul class="step-list">
+            <li>Tre strategie pronte all'uso</li>
+            <li>Range consigliato con confidence</li>
+            <li>Stima giacenza prevista</li>
+          </ul>
+        </article>
+
+        <article class="step-card reveal">
+          <span class="step-index">Step 03</span>
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16" /><path d="M12 4l8 8-8 8" /></svg>
+          </div>
+          <h3>Pubblica su 3 portali</h3>
+          <p>Un unico flusso invia annunci allineati su AutoScout24, Quattroruote e Subito.it.</p>
+          <ul class="step-list">
+            <li>Sync campi e immagini</li>
+            <li>Aggiornamento stato in tempo reale</li>
+            <li>Storico modifiche centralizzato</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 5. MODULI ===== -->
+  <section class="section modules" id="moduli">
+    <div class="container">
+      <span class="section-label">Moduli inclusi</span>
+      <h2 class="section-title">Sei moduli per gestire operazioni, vendite e controllo qualità</h2>
+      <p class="section-subtitle">Ogni modulo è progettato per ridurre passaggi manuali e dare visibilità immediata a vendite e back-office.</p>
+
+      <div class="modules-grid">
+        <article class="module-card reveal">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16v10H4z" /><path d="M8 4v6M16 4v6" /></svg>
+          </div>
+          <h3>Inventario Veicoli</h3>
+          <p>Schede complete con dati tecnici, optional, foto e stato commerciale.</p>
+        </article>
+
+        <article class="module-card reveal">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg>
+          </div>
+          <h3>Decodifica VIN</h3>
+          <p>Recupero automatico informazioni veicolo e precompilazione dei campi principali.</p>
+        </article>
+
+        <article class="module-card reveal">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 16l5-5 4 4 7-7" /><path d="M20 8v6h-6" /></svg>
+          </div>
+          <h3>Pricing Assistito AI</h3>
+          <p>Prezzi suggeriti con strategie diverse e indicatori di rotazione attesa.</p>
+        </article>
+
+        <article class="module-card reveal">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16" /><path d="M12 4l8 8-8 8" /></svg>
+          </div>
+          <h3>Pubblicazione Multi-Portale</h3>
+          <p>Invio annunci verso AutoScout24, Quattroruote e Subito.it in un click.</p>
+        </article>
+
+        <article class="module-card reveal">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 20h5v-2a3 3 0 0 0-5.36-1.86" /><path d="M17 20H7m10 0v-2c0-.66-.13-1.28-.36-1.86" /><path d="M7 20H2v-2a3 3 0 0 1 5.36-1.86" /><circle cx="9" cy="9" r="3" /><circle cx="15" cy="9" r="3" /></svg>
+          </div>
+          <h3>Ruoli & Permessi</h3>
+          <p>Accessi granulari per venditori, manager e amministrazione multi-sede.</p>
+        </article>
+
+        <article class="module-card reveal">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="9" /></svg>
+          </div>
+          <h3>Audit Log Completo</h3>
+          <p>Storico azioni con timestamp, utente e filiale per piena tracciabilità.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 6. PRICING ASSISTITO ===== -->
+  <section class="section" id="pricing">
+    <div class="container pricing-layout">
+      <div>
+        <span class="section-label">Pricing assistito</span>
+        <h2 class="section-title">Strategie prezzo leggibili, confronto immediato</h2>
+        <p class="section-subtitle">
+          Il widget mostra in modo chiaro cosa cambia tra Rotazione, Bilanciato e Margine: prezzo suggerito, range, confidence e giacenza stimata.
+        </p>
+        <ul class="pricing-points">
+          <li>Analisi su mercato locale e storico vendite interno</li>
+          <li>Scelta rapida della strategia più adatta al momento</li>
+          <li>Controllo trasparente tra velocità di vendita e marginalità</li>
+        </ul>
+      </div>
+
+      <article class="pricing-widget reveal" aria-live="polite">
+        <header class="pricing-head">
+          <div class="pricing-value" id="pricingValue">€18.900</div>
+          <div class="pricing-range" id="pricingRange">Range consigliato: €18.200 - €19.500</div>
+          <div class="pricing-car">Esempio: Fiat 500X 1.6 MJT 2021 · 56.000 km</div>
+        </header>
+
+        <div class="pricing-body">
+          <div class="strategy-tabs" role="tablist" aria-label="Strategie pricing">
+            <button class="strategy-tab active" data-strategy="rotation" role="tab" aria-selected="true">Rotazione</button>
+            <button class="strategy-tab" data-strategy="balanced" role="tab" aria-selected="false">Bilanciato</button>
+            <button class="strategy-tab" data-strategy="margin" role="tab" aria-selected="false">Margine</button>
+          </div>
+
+          <div class="pricing-visual">
+            <div>
+              <div class="confidence-row">
+                <strong>Confidence modello</strong>
+                <span id="confidenceText">82%</span>
+              </div>
+              <div class="confidence-track">
+                <div class="confidence-fill" id="confidenceFill"></div>
+              </div>
             </div>
-        </div>
-    </section>
-
-    <!-- ========== MODULES ========== -->
-    <section class="modules" id="modules">
-        <div class="section-container">
-            <div class="section-label">Toolbelt completo</div>
-            <h2 class="section-title">Moduli integrati per ogni fase</h2>
-            <p class="section-subtitle">Tutto quello che serve per gestire una concessionaria moderna, dal magazzino alle finanze.</p>
-
-            <div class="modules-grid">
-                <div class="feature-card reveal">
-                    <div class="feature-icon-box">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M20 7h-4.5M4 7h2.5M2 9h20M3 12h18M4 15h16M5 18h14M6 21h12"/>
-                        </svg>
-                    </div>
-                    <h3>Magazzino & Inventario</h3>
-                    <p>Traccia ogni veicolo dal parcheggio alla vendita. Foto, documenti, storico revisioni in un'unica scheda.</p>
-                </div>
-
-                <div class="feature-card reveal">
-                    <div class="feature-icon-box">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 2L2 7V12C2 18.6 12 22 12 22S22 18.6 22 12V7L12 2Z"/>
-                        </svg>
-                    </div>
-                    <h3>Pricing Assistito</h3>
-                    <p>IA suggerisce prezzi in base a mercato, storico flotta e margine desiderato. 3 strategie a click.</p>
-                </div>
-
-                <div class="feature-card reveal">
-                    <div class="feature-icon-box">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 3C6.48 3 2 6.04 2 10C2 13.96 6.48 17 12 17C13.3 17 14.6 16.84 15.87 16.54C16.4 17.04 16.76 17.75 16.76 18.57C16.76 20.53 14.66 22 12 22M12 7V13M9 10H15"/>
-                        </svg>
-                    </div>
-                    <h3>Annunci Multi-Canale</h3>
-                    <p>Pubblica su AutoScout24, Quattroruote, Subito.it. Sincronizzazione automatica, nuove piattaforme ogni mese.</p>
-                </div>
-
-                <div class="feature-card reveal">
-                    <div class="feature-icon-box">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M17 20h5v-2a3 3 0 0 0-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 0 1 5.356-1.857M21 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 0a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                        </svg>
-                    </div>
-                    <h3>Ruoli & Permessi</h3>
-                    <p>Crea team di operatori con permessi granulari: solo lettura, pubblicazione, gestione inventario.</p>
-                </div>
-
-                <div class="feature-card reveal">
-                    <div class="feature-icon-box">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 3v6m0 0v6M6 9h6m0 0h6M3 12l6-6m0 0l6 6"/>
-                        </svg>
-                    </div>
-                    <h3>Multi-Sede</h3>
-                    <p>Controlla più filiali con un'unica dashboard. Dati sincronizzati tra piazzali e sedi diverse.</p>
-                </div>
-
-                <div class="feature-card reveal">
-                    <div class="feature-icon-box">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <h3>Audit Log & Analytics</h3>
-                    <p>Ogni azione registrata per conformità. Analytics in tempo reale su vendite, prezzi, concorrenza.</p>
-                </div>
-
+            <div class="stock-row">
+              <strong>Giacenza stimata</strong>
+              <span id="stockMonths">1.8 mesi</span>
             </div>
+            <p class="note-row" id="pricingNote">Focus su velocità di uscita stock e minor tempo medio in piazzale.</p>
+          </div>
         </div>
-    </section>
+      </article>
+    </div>
+  </section>
 
-    <!-- ========== PRICING ========== -->
-    <section class="pricing" id="pricing">
-        <div class="section-container">
-            <div class="pricing-container">
-                <div class="pricing-text">
-                    <div class="section-label">Sottocosto previsto</div>
-                    <h2>Pricing Assistito: prezza intelligente, vendi più veloce</h2>
-                    <p>L'IA analizza il mercato locale in tempo reale e suggerisce 3 strategie di pricing. Tu scegli il margine.</p>
-                    <p>Il prezzo mostrato a destra aggiorna secondo la strategia: <strong>Rotazione</strong> (margine minimo, velocità massima), <strong>Bilanciato</strong> (margine medio, equilibrio), <strong>Margine</strong> (margine massimo, copertura costi alti).</p>
-                    <p style="font-size: 0.9rem; color: var(--color-text-secondary);">Toggle tra strategie per vedere prezzi, range, mesi a giacenza stimati e livello di confidence.</p>
-                </div>
+  <!-- ===== 7. MULTI-SEDE ===== -->
+  <section class="section multi">
+    <div class="container multi-layout">
+      <div>
+        <span class="section-label">Controllo rete</span>
+        <h2 class="section-title">Una vista unica su filiali diverse, senza perdere controllo locale</h2>
+        <p class="section-subtitle">
+          Ogni sede mantiene il proprio piazzale, mentre direzione e management vedono KPI, stock e attività in tempo reale con permessi coerenti.
+        </p>
+      </div>
 
-                <div class="pricing-widget">
-                    <div class="pricing-widget-header">
-                        <div class="pricing-price" id="pricing-price">18.500€</div>
-                        <div class="pricing-range" id="pricing-range">Range: 16.200€ - 21.900€ (Fiat 500 usata, 2021)</div>
-                    </div>
+      <div class="multi-cards">
+        <article class="multi-card reveal">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 20h5v-2a3 3 0 0 0-5.36-1.86" /><path d="M17 20H7m10 0v-2c0-.66-.13-1.28-.36-1.86" /><path d="M7 20H2v-2a3 3 0 0 1 5.36-1.86" /><circle cx="9" cy="9" r="3" /><circle cx="15" cy="9" r="3" /></svg>
+          </div>
+          <h3>Ruoli & Permessi</h3>
+          <p>Regole accesso per funzione e sede, con visibilità differenziata per ogni team.</p>
+        </article>
 
-                    <div class="pricing-widget-body">
-                        <div class="pricing-tabs" role="tablist">
-                            <button class="pricing-tab active" data-tab="rotation" role="tab">Rotazione</button>
-                            <button class="pricing-tab" data-tab="balanced" role="tab">Bilanciato</button>
-                            <button class="pricing-tab" data-tab="margin" role="tab">Margine</button>
-                        </div>
+        <article class="multi-card reveal">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9h18v11H3z" /><path d="M7 9V5h10v4" /></svg>
+          </div>
+          <h3>Filiali & Piazzale</h3>
+          <p>Inventario separato per sede con report aggregati per area manager e direzione.</p>
+        </article>
 
-                        <div class="pricing-content active" data-content="rotation">
-                            <div class="confidence-bar">
-                                <div class="confidence-label">Livello di Confidence</div>
-                                <div class="confidence-track">
-                                    <div class="confidence-fill" style="width: 78%;"></div>
-                                </div>
-                            </div>
-                            <div class="pricing-note">Strategia consigliata per massimizzare il turnover. Margine ridotto ma vetture escono dal magazzino in media 15 giorni.</div>
-                        </div>
+        <article class="multi-card reveal">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8v4l3 1.5" /><circle cx="12" cy="12" r="9" /></svg>
+          </div>
+          <h3>Audit Log</h3>
+          <p>Tutte le modifiche tracciate con data, utente e filiale per verifiche rapide.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
-                        <div class="pricing-content" data-content="balanced">
-                            <div class="confidence-bar">
-                                <div class="confidence-label">Livello di Confidence</div>
-                                <div class="confidence-track">
-                                    <div class="confidence-fill" style="width: 92%;"></div>
-                                </div>
-                            </div>
-                            <div class="pricing-note">Equilibrio tra margine e velocità. Adatto a flotta diversificata con mix di nuove e usate. Tempo medio giacenza: 22 giorni.</div>
-                        </div>
+  <!-- ===== 8. TESTIMONIAL ===== -->
+  <section class="section testimonial">
+    <div class="container">
+      <span class="section-label">Concessionarie clienti</span>
+      <h2 class="section-title">Risultati operativi misurabili, non promesse generiche</h2>
 
-                        <div class="pricing-content" data-content="margin">
-                            <div class="confidence-bar">
-                                <div class="confidence-label">Livello di Confidence</div>
-                                <div class="confidence-track">
-                                    <div class="confidence-fill" style="width: 65%;"></div>
-                                </div>
-                            </div>
-                            <div class="pricing-note">Massimizza margine unitario. Ideale per vetture premium o pochi pezzi speciali. Tempo medio giacenza: 35+ giorni.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="testimonial-grid">
+        <article class="testimonial-card reveal">
+          <div class="stars">★★★★★</div>
+          <p class="quote">"Con 86 vetture attive avevamo annunci incoerenti tra i portali. In 5 settimane siamo passati da 2,7 a 1,6 giorni medi per andare online con stock nuovo."</p>
+          <div class="author">Luca Ferranti</div>
+          <div class="role">Responsabile Usato · Ferranti Auto (Bergamo) · 86 vetture</div>
+        </article>
+
+        <article class="testimonial-card reveal">
+          <div class="stars">★★★★★</div>
+          <p class="quote">"La decodifica VIN e i controlli campo ci hanno portato al 94% di schede complete al primo passaggio. Il team commerciale ora perde meno tempo in correzioni."</p>
+          <div class="author">Elena Riva</div>
+          <div class="role">Operations Manager · Riva Motors (Padova) · 142 vetture</div>
+        </article>
+
+        <article class="testimonial-card reveal">
+          <div class="stars">★★★★★</div>
+          <p class="quote">"Su due sedi avevamo listini fuori allineamento. Con CarGest abbiamo centralizzato regole prezzo e audit log: +19% di coerenza annunci in tre mesi."</p>
+          <div class="author">Davide Neri</div>
+          <div class="role">Direzione Rete · Neri Automotive Group (Modena-Reggio) · 238 vetture</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 9. FAQ ===== -->
+  <section class="section" id="contatto">
+    <div class="container faq-layout">
+      <aside class="faq-side reveal">
+        <span class="section-label">FAQ</span>
+        <h3>Domande frequenti prima della demo</h3>
+        <p>Ti mostriamo il flusso sulla tua operatività reale, non una demo generica.</p>
+        <a class="btn btn-primary" href="mailto:demo@cargest.it">Richiedi demo gratuita</a>
+      </aside>
+
+      <div class="faq-list">
+        <article class="faq-item open reveal">
+          <button class="faq-question" type="button">
+            Quanto tempo serve per attivare CarGest?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer" style="max-height: 220px;">
+            <p>L'avvio standard richiede da 5 a 10 giorni lavorativi: setup account, import iniziale, definizione ruoli e onboarding operativo del team.</p>
+          </div>
+        </article>
+
+        <article class="faq-item reveal">
+          <button class="faq-question" type="button">
+            Si integra con i nostri processi attuali?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Sì. CarGest è API-first: durante la demo analizziamo i tuoi flussi esistenti e definiamo insieme integrazioni pratiche con CRM, DMS o strumenti interni.</p>
+          </div>
+        </article>
+
+        <article class="faq-item reveal">
+          <button class="faq-question" type="button">
+            È adatto anche a concessionarie sotto le 50 vetture?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Sì, è pensato proprio per team da 10 a 500+ vetture. Il flusso resta semplice anche con stock ridotto e cresce senza cambiare piattaforma.</p>
+          </div>
+        </article>
+
+        <article class="faq-item reveal">
+          <button class="faq-question" type="button">
+            Come gestite sicurezza e tracciabilità delle modifiche?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Ogni azione è registrata in audit log con utente, data e filiale. I permessi sono granulari per ruolo e tutte le connessioni sono cifrate.</p>
+          </div>
+        </article>
+
+        <article class="faq-item reveal">
+          <button class="faq-question" type="button">
+            Offrite supporto dopo il go-live?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Sì. Hai un canale dedicato con tempi di risposta definiti, sessioni di allineamento e supporto operativo per il team vendite e back-office.</p>
+          </div>
+        </article>
+
+        <article class="faq-item reveal">
+          <button class="faq-question" type="button">
+            Come funziona la parte economica?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Dopo la demo ricevi una proposta chiara in base a sedi, utenti e volume vetture. Nessuna promessa di free plan: il preventivo è personalizzato e trasparente.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 10. CTA FINALE ===== -->
+  <section class="section final-cta">
+    <div class="dot-grid" aria-hidden="true"></div>
+    <div class="container final-cta-inner reveal">
+      <h2>Porta ordine nel flusso vendite della tua concessionaria</h2>
+      <p>Demo personalizzata sulla tua operatività reale, niente slide generiche. Vediamo insieme come ridurre tempi, errori e attività duplicate.</p>
+      <a class="btn btn-light" href="mailto:demo@cargest.it">Richiedi demo gratuita</a>
+    </div>
+  </section>
+
+  <!-- ===== 11. FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a class="logo" href="#top"><span class="car" style="color:#fff;">Car</span><span class="gest">Gest</span></a>
+          <p style="margin-top:10px; max-width: 320px;">Gestionale cloud per concessionarie auto italiane. Meno attività ripetitive, più controllo operativo.</p>
         </div>
-    </section>
 
-    <!-- ========== MULTI-LOCATION ========== -->
-    <section class="multi-location">
-        <div class="section-container">
-            <div class="multi-location-container">
-                <div class="multi-location-intro">
-                    <div class="section-label">Scalabilità</div>
-                    <h2>Controlli più sedi da un'unica piattaforma</h2>
-                    <p>Ogni filiale ha il suo piazzale logico in CarGest. Dati sincronizzati in tempo reale, permessi granulari per ruolo, audit log completo di ogni azione. Cresci senza complessità.</p>
-                </div>
-
-                <div class="multi-location-content">
-                    <div class="multi-location-cards">
-                        <div class="multi-location-card reveal">
-                            <div class="feature-icon-box">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <path d="M17 20h5v-2a3 3 0 0 0-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 0 1 5.356-1.857M21 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 0a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                </svg>
-                            </div>
-                            <h4>Ruoli & Permessi</h4>
-                            <p>Admin, Manager, Operatore. Definisci chi pubblica, chi modifica prezzi, chi vede dati finanziari.</p>
-                        </div>
-
-                        <div class="multi-location-card reveal">
-                            <div class="feature-icon-box">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <path d="M9 6H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-2M9 5a3 3 0 0 1 6 0"/>
-                                </svg>
-                            </div>
-                            <h4>Filiali & Piazzali</h4>
-                            <p>Crea filiale per ogni sede fisica. Inventario isolato per location, metriche separate, team dedicati.</p>
-                        </div>
-
-                        <div class="multi-location-card reveal">
-                            <div class="feature-icon-box">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <path d="M12 8v4l3 1.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                </svg>
-                            </div>
-                            <h4>Audit Log</h4>
-                            <p>Ogni operazione tracciata con timestamp, operatore e filiale. Conformità normativa e ricerca tempistiche.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div>
+          <h4>Link utili</h4>
+          <ul>
+            <li><a href="#how">Come funziona</a></li>
+            <li><a href="#moduli">Moduli</a></li>
+            <li><a href="#pricing">Pricing Assistito</a></li>
+            <li><a href="#contatto">FAQ & Contatto</a></li>
+          </ul>
         </div>
-    </section>
 
-    <!-- ========== TESTIMONIALS ========== -->
-    <section class="testimonials">
-        <div class="section-container">
-            <div class="section-label">Credibilità</div>
-            <h2 class="section-title">Concessionarie che già crescono con CarGest</h2>
-            <p class="section-subtitle">Risultati reali da team reali che hanno automatizzato il 90% del lavoro di back-office.</p>
-
-            <div class="testimonials-grid">
-                <div class="testimonial-card reveal">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <div class="testimonial-quote">"Abbiamo dimezzato i tempi di inserimento dati. Basta excel: ogni auto entra una sola volta, tutto sincronizzato fra i 3 portali automaticamente. Prima eravamo 2 persone a full-time solo su annunci."</div>
-                    <div class="testimonial-author">Marco Rossi</div>
-                    <div class="testimonial-role">Gestore operazioni, Concessionaria Rossi Auto (Milano) — 120 vetture</div>
-                </div>
-
-                <div class="testimonial-card reveal">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <div class="testimonial-quote">"Il pricing intelligente ha aumentato il nostro margine medio del +15% sul primo mesetto. L'IA suggerisce prezzi che vendono veloce senza svendere. Geniale per chi ha molti pezzi in stock."</div>
-                    <div class="testimonial-author">Chiara Bianchi</div>
-                    <div class="testimonial-role">Responsabile vendite, AutoGroup Bianchi (Torino) — 250 vetture</div>
-                </div>
-
-                <div class="testimonial-card reveal">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <div class="testimonial-quote">"Menzioniamo soprattutto la multi-sede: due piazzali completamente separati, ma dati sincronizzati e visibilità totale dalla dashboard. Il nostro manager può decidere politiche di pricing per tutta la rete in un click."</div>
-                    <div class="testimonial-author">Antonio De Luca</div>
-                    <div class="testimonial-role">Amministratore delegato, Rete AutoDeLuca (Napoli-Caserta) — 180 vetture su 2 sedi</div>
-                </div>
-            </div>
+        <div>
+          <h4>Info legali</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">Termini di Servizio</a></li>
+            <li><a href="mailto:info@cargest.it">info@cargest.it</a></li>
+          </ul>
         </div>
-    </section>
+      </div>
 
-    <!-- ========== FAQ ========== -->
-    <section class="faq" id="faq">
-        <div class="section-container">
-            <div class="faq-container">
-                <div class="faq-intro">
-                    <div class="section-label">Servirà chiarire</div>
-                    <h2>Domande frequenti</h2>
-                    <p>Non trovi la risposta? Contattaci senza impegno per una consulenza personalizzata su come CarGest si adatta alle tue esigenze specifiche.</p>
-                    <button class="faq-cta">Contatta il team</button>
-                </div>
+      <div class="footer-bottom">
+        <span>© 2026 CarGest. Tutti i diritti riservati.</span>
+        <span>CarGest migliora il flusso operativo di vendita auto.</span>
+      </div>
+    </div>
+  </footer>
 
-                <div class="faq-items">
-                    <div class="faq-item" data-faq="1">
-                        <div class="faq-question">
-                            <span>Quanto tempo per imparare CarGest? Servono competenze tecniche?</span>
-                            <div class="faq-toggle">+</div>
-                        </div>
-                        <div class="faq-answer">
-                            <p>No, è disegnato per chi vende auto, non per informatici. Operatori di base imparano in 1-2 ore con il nostro onboarding video + supporto Slack dedicato. Manager e admin gestiscono ruoli/filiali tramite form intuitivi. Se hai esigenze custom (integrazioni, API), il nostro team dev è a disposizione.</p>
-                        </div>
-                    </div>
+  <script>
+    // ===== Navbar scrolled state =====
+    const navbar = document.getElementById("navbar");
+    const toggleNavbar = () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    };
+    toggleNavbar();
+    window.addEventListener("scroll", toggleNavbar);
 
-                    <div class="faq-item" data-faq="2">
-                        <div class="faq-question">
-                            <span>Come funziona il pricing? A che prezzo parte?</span>
-                            <div class="faq-toggle">+</div>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Piani pensati sulla dimensione: Starter (1-50 vetture), Growth (50-200), Enterprise (200+). Fatturazione mensile o annuale con 20% sconto. Primo mese di prova incluso, no carta di credito richiesta. Prezzi specifici dopo una breve call con il nostro commercial team.</p>
-                        </div>
-                    </div>
+    // ===== IntersectionObserver reveal with stagger =====
+    const revealItems = Array.from(document.querySelectorAll(".reveal"));
+    revealItems.forEach((el, index) => {
+      el.style.transitionDelay = `${(index % 8) * 90}ms`;
+    });
 
-                    <div class="faq-item" data-faq="3">
-                        <div class="faq-question">
-                            <span>Quali portali supportate? E se domani vuoi pubblicare su un'altro portale?</span>
-                            <div class="faq-toggle">+</div>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Oggi AutoScout24, Quattroruote, Subito.it (copertura 85% del mercato usato italiano). Aggiungiamo nuovi portali in media ogni 2 mesi in base alle richieste dei clienti. Non sei bloccato: se domani un portale nuovo diventa strategico, lo aggiungiamo in sprint dedicato.</p>
-                        </div>
-                    </div>
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
 
-                    <div class="faq-item" data-faq="4">
-                        <div class="faq-question">
-                            <span>I miei dati sono al sicuro? Che garanzie avete su privacy e sicurezza?</span>
-                            <div class="faq-toggle">+</div>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Datacenter EU con encryption end-to-end (TLS 1.3). GDPR compliant, audit logging completo, backup giornalieri. Certificazione ISO 27001 in roadmap per Q2. Nessun dato viene mai venduto o usato per training di modelli IA senza consenso esplicito.</p>
-                        </div>
-                    </div>
+    revealItems.forEach((el) => revealObserver.observe(el));
 
-                    <div class="faq-item" data-faq="5">
-                        <div class="faq-question">
-                            <span>Posso integrare CarGest con il mio gestionale interno o CRM?</span>
-                            <div class="faq-toggle">+</div>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Sì, tramite API REST documentate. Supportiamo webhook per sincronizzazione real-time inventario ↔ cargest, export dati in CSV/JSON, integrazioni su misura per sistemi legacy. Team dev cargest supporta l'integrazione.</p>
-                        </div>
-                    </div>
+    // ===== FAQ accordion (single open item) =====
+    const faqItems = Array.from(document.querySelectorAll(".faq-item"));
+    faqItems.forEach((item) => {
+      const question = item.querySelector(".faq-question");
+      const answer = item.querySelector(".faq-answer");
 
-                    <div class="faq-item" data-faq="6">
-                        <div class="faq-question">
-                            <span>E se cambio idea o cambio fornitore? Che succede ai dati?</span>
-                            <div class="faq-toggle">+</div>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Tutti i tuoi dati rimangono tuoi. Export CSV/JSON su richiesta, nessuna penale per terminazione contratto (salvo mesi residui). Garantito: non sei mai bloccato in una piattaforma.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+      question.addEventListener("click", () => {
+        const isOpen = item.classList.contains("open");
 
-    <!-- ========== FINAL CTA ========== -->
-    <section class="final-cta">
-        <div class="final-cta-content">
-            <h2>Inizia in 5 minuti. Niente carta di credito.</h2>
-            <p>Carica un'auto, configura 1 portale, pubblica. Vedi in tempo reale perché CarGest aggiora le concessionarie.</p>
-            <button class="btn-white">Richiedi demo personalizzata →</button>
-        </div>
-    </section>
-
-    <!-- ========== FOOTER ========== -->
-    <footer>
-        <div class="footer-logo">
-            <span class="footer-logo-car">Car</span><span class="footer-logo-gest">Gest</span>
-        </div>
-        <div class="footer-copyright">© 2026 CarGest S.r.l. • Privacy Policy • Terms of Service • Contatti</div>
-    </footer>
-
-    <!-- ========== JAVASCRIPT ========== -->
-    <script>
-        // ========== NAVBAR SCROLL EFFECT ==========
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+        faqItems.forEach((other) => {
+          other.classList.remove("open");
+          other.querySelector(".faq-answer").style.maxHeight = "0px";
         });
 
-        // ========== SCROLL REVEAL ANIMATION ==========
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        if (!isOpen) {
+          item.classList.add("open");
+          answer.style.maxHeight = `${answer.scrollHeight}px`;
+        }
+      });
+    });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('visible');
-                    }, index * 100);
-                }
-            });
-        }, observerOptions);
+    // ===== Pricing widget tabs =====
+    const pricingData = {
+      rotation: {
+        value: "€18.900",
+        range: "Range consigliato: €18.200 - €19.500",
+        confidence: 82,
+        stock: "1.8 mesi",
+        note: "Focus su velocità di uscita stock e minor tempo medio in piazzale."
+      },
+      balanced: {
+        value: "€19.700",
+        range: "Range consigliato: €19.100 - €20.300",
+        confidence: 88,
+        stock: "2.6 mesi",
+        note: "Equilibrio tra margine e rotazione per mantenere volume vendite stabile."
+      },
+      margin: {
+        value: "€20.600",
+        range: "Range consigliato: €20.100 - €21.200",
+        confidence: 76,
+        stock: "3.9 mesi",
+        note: "Strategia orientata alla marginalità con tempi di giacenza più lunghi."
+      }
+    };
 
-        document.querySelectorAll('.reveal').forEach(el => {
-            observer.observe(el);
-        });
+    const tabs = Array.from(document.querySelectorAll(".strategy-tab"));
+    const pricingValue = document.getElementById("pricingValue");
+    const pricingRange = document.getElementById("pricingRange");
+    const confidenceText = document.getElementById("confidenceText");
+    const confidenceFill = document.getElementById("confidenceFill");
+    const stockMonths = document.getElementById("stockMonths");
+    const pricingNote = document.getElementById("pricingNote");
 
-        // ========== PRICING WIDGET TABS ==========
-        const pricingTabs = document.querySelectorAll('.pricing-tab');
-        const pricingContents = document.querySelectorAll('.pricing-content');
+    const applyPricing = (key) => {
+      const data = pricingData[key];
+      pricingValue.textContent = data.value;
+      pricingRange.textContent = data.range;
+      confidenceText.textContent = `${data.confidence}%`;
+      confidenceFill.style.width = `${data.confidence}%`;
+      stockMonths.textContent = data.stock;
+      pricingNote.textContent = data.note;
 
-        const pricingData = {
-            rotation: {
-                price: '16.200€',
-                range: 'Range: 14.500€ - 18.900€ (Fiat 500 usata, 2021)',
-                confidence: 78
-            },
-            balanced: {
-                price: '18.500€',
-                range: 'Range: 16.200€ - 21.900€ (Fiat 500 usata, 2021)',
-                confidence: 92
-            },
-            margin: {
-                price: '21.200€',
-                range: 'Range: 19.500€ - 24.800€ (Fiat 500 usata, 2021)',
-                confidence: 65
-            }
-        };
+      tabs.forEach((tab) => {
+        const active = tab.dataset.strategy === key;
+        tab.classList.toggle("active", active);
+        tab.setAttribute("aria-selected", active ? "true" : "false");
+      });
+    };
 
-        pricingTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabValue = tab.getAttribute('data-tab');
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => applyPricing(tab.dataset.strategy));
+    });
 
-                // Update tab active state
-                pricingTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-
-                // Update content
-                pricingContents.forEach(content => {
-                    content.classList.remove('active');
-                    if (content.getAttribute('data-content') === tabValue) {
-                        content.classList.add('active');
-                    }
-                });
-
-                // Update pricing display
-                document.getElementById('pricing-price').textContent = pricingData[tabValue].price;
-                document.getElementById('pricing-range').textContent = pricingData[tabValue].range;
-
-                // Update confidence bar
-                const confidenceFill = document.querySelector('.pricing-content.active .confidence-fill');
-                if (confidenceFill) {
-                    confidenceFill.style.width = pricingData[tabValue].confidence + '%';
-                }
-            });
-        });
-
-        // ========== FAQ ACCORDION ==========
-        const faqItems = document.querySelectorAll('.faq-item');
-
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
-            question.addEventListener('click', () => {
-                // Close all other items
-                faqItems.forEach(otherItem => {
-                    if (otherItem !== item && otherItem.classList.contains('open')) {
-                        otherItem.classList.remove('open');
-                    }
-                });
-
-                // Toggle current item
-                item.classList.toggle('open');
-            });
-        });
-
-        // ========== SMOOTH SCROLL & BUTTON INTERACTIONS ==========
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        // Button click handlers (delegate to modal/form in real implementation)
-        document.querySelectorAll('.btn-primary, .btn-ghost, .btn-white, .nav-cta, .faq-cta').forEach(btn => {
-            btn.addEventListener('click', function() {
-                // In a real app, this would open a modal or redirect to a form
-                console.log('CTA clicked:', this.textContent);
-            });
-        });
-    </script>
+    applyPricing("rotation");
+  </script>
 </body>
 </html>
